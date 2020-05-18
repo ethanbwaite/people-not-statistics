@@ -1,0 +1,53 @@
+body {
+  background: #010101;
+  height: 100vh;
+  width: 100vw;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+p {
+  font-family: 'Crimson Text', serif;
+  color: #FFFFFF;
+  font-size: 1.5em;
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.john-donne {
+  font-size: 2em;
+  font-style: italic;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+button {
+  font-family: 'Crimson Text', serif;
+  font-size: 2em;
+  padding-left: 2%;
+  padding-right: 2%;
+  color: #FFFFFF;
+  background-color: #555;
+  outline: none;
+  border-width: 0px;
+  border-radius: 9px;
+  box-shadow: 0px 6px 0px #333;
+}
+
+button:hover {
+  background-color: #777;
+  cursor: pointer;
+  transition-duration: 250ms;
+}
+
+button:active {
+  transform: translateY(3px);
+  box-shadow: 0px 3px 0px #333;
+  transition-duration: 250ms;
+}
