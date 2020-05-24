@@ -1,62 +1,71 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
+import './css/all.css';
 import useFetch from './useFetch';
-import Sound from 'react-sound';
+import Person from './Person';
 
 
-function App() {
-  const endPoint = 'https://api.thevirustracker.com/free-api?global=stats';
+function App(props) {
+  const endPoint = 'https://covidtracking.com/api/us/daily';
+  const endPointTotal = 'http://covidtracking.com/api/us';
   const [isLoading, data, error] = useFetch(endPoint);
-  const [deaths, setDeaths] = useState();
-  const [sound, setSound] = useState();
+  const [isLoadingTotal, dataTotal, errorTotal] = useFetch(endPointTotal);
+  const [deaths, setDeaths] = useState(0);
+  const [totalDeaths, setTotalDeaths] = useState(0);
 
-  function onStartClick() {
-    setDeaths(data.map((datum) => datum.total_new_deaths_today));
-    alert(data.map((datum) => datum.total_new_deaths_today));
-    setSound( <Sound
-              url="church-bell.mp3"
-              playStatus={Sound.status.PLAYING}
-              autoLoad={true}
-              // onLoading={this.handleSongLoading}
-              // onPlaying={this.handleSongPlaying}
-              onFinishedPlaying={handleSongFinishedPlaying}
-            /> );
+  const [people, setPeople] = useState([]);
+  const [displayedPeople, setDisplayedPeople] = useState(0);
+
+  const [alltime, setAlltime] = useState(false);
+
+  const TICK = 10;
+
+  function showAllTime() {
+    setDisplayedPeople(0);
+    setPeople([]);
+
   }
 
-  function handleSongFinishedPlaying() {
-    setDeaths(deaths - 1);
-    if (deaths > 0)
-      setSound( <Sound
-        url="church-bell.mp3"
-        playStatus={Sound.status.PLAYING}
-        autoLoad={true}
-        // onLoading={this.handleSongLoading}
-        // onPlaying={this.handleSongPlaying}
-        onFinishedPlaying={handleSongFinishedPlaying}
-      /> );
+  function tick() {
+    let displayed = displayedPeople;
+    console.log("displayed: " + displayed + " - deaths: " + data[0].deathIncrease)
+    if (displayed < alltime ? dataTotal[0].death : data[0].deathIncrease) {
+      setDisplayedPeople(displayedPeople => displayedPeople + 1);
+      setPeople(prevPeople => [...prevPeople, <Person />]);
+      console.log("push")
+    }
   }
 
   useEffect(() => {
-    if (false)
-      setDeaths(data.map((datum) => datum.total_new_deaths_today));
-  }, [isLoading])
+    if (data && dataTotal) {
+      let tick_interval = TICK;
+      if (displayedPeople > data[0].deathIncrease-50)
+        tick_interval*=5;
+      if (displayedPeople > data[0].deathIncrease-10)
+        tick_interval*=2;
+        if (displayedPeople > data[0].deathIncrease-5)
+        tick_interval*=2;
+      displayedPeople < data[0].deathIncrease && setTimeout(() => tick(), tick_interval);
+    }
+  }, [isLoading, data, dataTotal, displayedPeople]);
+
 
   return (
-      <body>
-        <div className="app">
-          <div className="quote">
-            <p className="john-donne"> “Any man's death diminishes me, because I am involved in mankind; and therefore never send to know for whom the bell tolls; it tolls for thee.”</p>
-            <p>-John Donne 1624</p>
-            <p>In this age, we have near instant access to information about the lives lost during this pandemic at our fingertips - yet the events happening seem so far away.</p>
-            <p>In the middle ages, after a funeral the church would ring a bell to honor their death. Nine tolls for a man, three for a woman, and one for a child.</p>
-            <p>Everyone for miles around would hear the bells and know that someone they may have known had just passed, and they would have to send someone out to the church to learn of their name. This was the main way people knew of any deaths in their area.</p>
-            <p>The goal of this website is to slow down and think about the lives that are ending around us due to this crisis. When reduced to a mere number on a screen, the gravity of the statistic is lost.</p>
-            <p>This site will toll a bell once for every man and woman that lost their lives in the past day to this disease.</p>
-          </div>
-          <button onClick={onStartClick}>Start.</button>
+    <div>
+      <div className="app">
+        <div className="quote">
+          <p className="title">People. not Statistics.</p>
+          <p className="copy">Each figure on this page represents a real person who's life ended in the past day due to COVID-19 in the United States.</p>
+          <p>Don't forget the humans behind the statistics.</p>
+          <a href="http://covidtracking.com" className="source">Source: http://covidtracking.com</a>
+          <p className="tally">{displayedPeople}</p>
+          {/* <button>Show All Time</button> */}
+        </div>          
+        <div className="person-container">
+          {people.map((person) => <div key={person.id}>{person}</div>)}
+        </div>
       </div>
-      {sound}
-    </body>
+    </div>
   );
 }
 

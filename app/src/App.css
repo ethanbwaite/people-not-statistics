@@ -1,7 +1,15 @@
 body {
-  background: #010101;
+  background: #040404;
   height: 100vh;
   width: 100vw;
+  overflow: auto;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+}
+
+body::-webkit-scrollbar { 
+  width: 0 !important;
+  display: none; 
 }
 
 .app {
@@ -12,42 +20,116 @@ body {
   align-content: center;
 }
 
-p {
-  font-family: 'Crimson Text', serif;
-  color: #FFFFFF;
-  font-size: 1.5em;
-  margin-left: 30%;
-  margin-right: 30%;
+.quote {
+  width: 80%;
 }
 
-.john-donne {
+p {
+  font-family: 'Jost', sans-serif;
+  color: #FFFFFF;
+  font-size: 1.25em;
+  margin-left: 0%;
+  margin-right: 0%;
+  margin-bottom: 0.25%;
+  margin-top: 0.25%;
+}
+
+.title {
+  margin-top: 5%;
   font-size: 2em;
+  font-weight: 600;
+}
+
+.source {
   font-style: italic;
-  margin-left: 20%;
-  margin-right: 20%;
+  font-size: 1em;
+  color: #555;
+}
+
+.person-container {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: left;
+  align-items: flex-start;
+  align-content: flex-end;
+  margin-top: 2%;
+  margin-bottom: 10vh;
+  margin-left: 0%;
+  transition-duration: 500ms;
+}
+
+.person {
+  margin: 3px;
+  transition-duration: 500ms;
 }
 
 button {
-  font-family: 'Crimson Text', serif;
-  font-size: 2em;
-  padding-left: 2%;
-  padding-right: 2%;
-  color: #FFFFFF;
-  background-color: #555;
-  outline: none;
+  font-family: 'Jost', sans-serif;
+  font-size: 1em;
+  color: #fff;
   border-width: 0px;
-  border-radius: 9px;
-  box-shadow: 0px 6px 0px #333;
+  background-color: #333;
+  border-radius: 3px;
+  outline: none;
+  transition-duration: 200ms;
 }
-
 button:hover {
-  background-color: #777;
+  background-color: #555;
+  transition-duration: 200ms;
   cursor: pointer;
-  transition-duration: 250ms;
+}
+button:active {
+  background-color: #222;
+  transition-duration: 200ms;
 }
 
-button:active {
-  transform: translateY(3px);
-  box-shadow: 0px 3px 0px #333;
-  transition-duration: 250ms;
+/* Tooltip text */
+.tooltiptext {
+  font-family: 'Jost', sans-serif;
+  font-size: 1em;
+  visibility: hidden;
+  width: 120px;
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+  margin-left: 16px;
+}
+
+.tooltiptext::after {
+  content: " ";
+  position: absolute;
+  top: 20%;
+  right: 100%; /* To the left of the tooltip */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #222 transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.person:hover .tooltiptext {
+  visibility: visible;
+}
+
+.person-container:hover > div {
+  opacity: 0.33;
+  
+  /* transition-duration: 500ms; */
+}
+
+.person-container:hover > div:hover {
+  opacity: 1 !important;
+}
+
+i:hover {
+  opacity: 1 !important;
+  cursor: none;
 }

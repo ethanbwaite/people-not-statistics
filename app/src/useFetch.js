@@ -11,7 +11,7 @@ export default function useFetch(url, options) {
       .then(
         (result) => {
           setIsLoading(false);
-          setData(result.results);
+          setData(result);
           console.log('Good response');
         },
         (error) => {
