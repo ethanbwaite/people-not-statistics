@@ -4,4 +4,4 @@ There are a lot of trackers for COVID-19 recently showing very large numbers tic
 
 ## Installation
 
-First run `npm install` at the `src` level to install dependencies. Then run `npm start` to run the app.
+First run `npm install` to install dependencies. Then run `npm start` to run the app.
